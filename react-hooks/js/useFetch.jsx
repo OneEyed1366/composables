@@ -17,13 +17,15 @@ export function useFetch(url, urlParams, requestParams = { cache: "force-cache" 
   const [error, setError] = useState();
   const [data, setData] = useState();
 
-  const _url = (url += Object.entries(urlParams).reduce((acc, [key, value], idx, array) => {
-    const _str = `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+  const _url = urlParams
+    ? Object.entries(urlParams).reduce((acc, [key, value], idx, array) => {
+        const _str = `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
 
-    if (idx < array.length - 1) return (acc += `${_str}&`);
+        if (idx < array.length - 1) return (acc += `${_str}&`);
 
-    return (acc += _str);
-  }, ""));
+        return (acc += _str);
+      }, url)
+    : url;
   /** @param {AbortSignal} signal */
   const _fetchFunction = async (signal) => {
     setIsPending(true);
