@@ -33,8 +33,11 @@ export function useFetch(url, urlParams, requestParams = { cache: "force-cache" 
     try {
       const _res = await fetch(_url, { ...requestParams, signal });
 
-      if (_res.ok) setData(await _res.json());
-      if (!_res.ok) setError(_res.statusText);
+      if (_res.ok) {
+        setData(await _res.json());
+      } else {
+        setError(_res.statusText);
+      }
     } catch (error) {
       setError(error);
     } finally {
