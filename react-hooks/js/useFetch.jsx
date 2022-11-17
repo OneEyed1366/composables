@@ -45,7 +45,11 @@ export function useFetch(url, urlParams, requestParams = { cache: "force-cache" 
   useEffect(() => {
     const { signal, abort } = new AbortController();
 
-    _fetchFunction(signal);
+    if (!url) {
+      setError("No URL to fetch");
+    } else {
+      _fetchFunction(signal);
+    }
 
     return () => {
       abort();
