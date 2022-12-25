@@ -1,16 +1,9 @@
-import {
-  ComponentProps,
-  ComponentType,
-  FC,
-  LazyExoticComponent,
-  memo,
-  MemoExoticComponent,
-} from "react";
+import { ComponentType, FC, LazyExoticComponent, memo, MemoExoticComponent } from "react";
 
-type ExtendedComponentType<T extends ComponentType> = FC<ComponentProps<T>> & {
-  Async: LazyExoticComponent<T>;
-  Memoized: MemoExoticComponent<T>;
-  AsyncMemoized: MemoExoticComponent<LazyExoticComponent<T>>;
+export type ExtendedComponentType<T> = FC<T> & {
+  Async: LazyExoticComponent<ComponentType<T>>;
+  Memoized: MemoExoticComponent<ComponentType<T>>;
+  AsyncMemoized: MemoExoticComponent<LazyExoticComponent<ComponentType<T>>>;
 };
 /**
  * Фабрика, необходимая для шаблонного генерирования вариантов компонентов
@@ -20,9 +13,9 @@ type ExtendedComponentType<T extends ComponentType> = FC<ComponentProps<T>> & {
  *
  * @returns только Асинхронный, только Мемоизированный и Асинхронный И Мемоизированный варианты переданного компонента
  * */
-export function componentVariationsFabric<T extends ComponentType>(
-  component: FC<ComponentProps<T>>,
-  asyncComponent: LazyExoticComponent<T>,
+export function componentVariationsFabric<T>(
+  component: FC<T>,
+  asyncComponent: LazyExoticComponent<FC<T>>,
 ): ExtendedComponentType<T> {
   const _fields = {
     enumerable: true,
