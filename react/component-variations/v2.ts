@@ -4,13 +4,13 @@ import {
   FC,
   LazyExoticComponent,
   memo,
-  NamedExoticComponent,
+  MemoExoticComponent,
 } from "react";
 
 type ExtendedComponentType<T extends ComponentType> = FC<ComponentProps<T>> & {
   Async: LazyExoticComponent<T>;
-  Memoized: NamedExoticComponent<T>;
-  AsyncMemoized: NamedExoticComponent<LazyExoticComponent<T>>;
+  Memoized: MemoExoticComponent<T>;
+  AsyncMemoized: MemoExoticComponent<LazyExoticComponent<T>>;
 };
 /**
  * Фабрика, необходимая для шаблонного генерирования вариантов компонентов
@@ -18,7 +18,7 @@ type ExtendedComponentType<T extends ComponentType> = FC<ComponentProps<T>> & {
  * @param component Исходный компнент, будет мемоизирован
  * @param asyncComponent Асинхронный компонент вида `lazy(() => import(".../somePath"))`
  *
- * @returns Изначальный, Асинхронный, только Мемоизированный и Асинхронный И Мемоизированный варианты переданного компонента
+ * @returns только Асинхронный, только Мемоизированный и Асинхронный И Мемоизированный варианты переданного компонента
  * */
 export function componentVariationsFabric<T extends ComponentType>(
   component: FC<ComponentProps<T>>,
